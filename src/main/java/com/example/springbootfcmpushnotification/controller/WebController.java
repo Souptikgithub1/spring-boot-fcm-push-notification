@@ -33,7 +33,8 @@ public class WebController {
         Map<String, Object> bodyMap = new HashMap<>();
 
         //bodyMap.put("to", "/topics/" + TOPIC);
-        bodyMap.put("to", "fEp6K72mF20:APA91bGnQX20wKA5aGjSzxo8yQalcJw6HsQyKt7M6Mcl3PpwR7-NCvqCnCtVo6HCN4IOInUCX0uuXApuPJh_6OQoN7Io2Y1hGD523I_PiqXOXKujkABysTdR5baU2rh9e2WDTk95UtFm");
+        //bodyMap.put("to", "fEp6K72mF20:APA91bGnQX20wKA5aGjSzxo8yQalcJw6HsQyKt7M6Mcl3PpwR7-NCvqCnCtVo6HCN4IOInUCX0uuXApuPJh_6OQoN7Io2Y1hGD523I_PiqXOXKujkABysTdR5baU2rh9e2WDTk95UtFm");
+        bodyMap.put("to", "fzIXEj8jcRU:APA91bHfLPb6j62f72xiCQ3GaJ66IGiRYOA-VTimxKGU3k5Fqjoq6GaWeJBpyoH9RH8RN_7qwwYuqmS2AbONtF55R07laHBBcKxghZEvx1wgvCgjtkp9pGI3YmdA1_8GWoD08CEuKSNd");
         bodyMap.put("priority", "high");
 
         Map<String, String> notificationMap = new HashMap<>();
