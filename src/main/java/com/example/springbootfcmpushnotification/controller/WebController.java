@@ -17,6 +17,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -45,34 +47,39 @@ public class WebController {
     }
 
     @RequestMapping(value = "/send", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> send(@RequestBody Map<String, String> topicBody) throws Exception {
-        Map<String, Object> bodyMap = new HashMap<>();
-
-        //bodyMap.put("to", "/topics/" + TOPIC);
-        //bodyMap.put("to", "fEp6K72mF20:APA91bGnQX20wKA5aGjSzxo8yQalcJw6HsQyKt7M6Mcl3PpwR7-NCvqCnCtVo6HCN4IOInUCX0uuXApuPJh_6OQoN7Io2Y1hGD523I_PiqXOXKujkABysTdR5baU2rh9e2WDTk95UtFm");
-        bodyMap.put("to", topicBody.get("topicId"));
-        bodyMap.put("priority", "high");
-
-        Map<String, String> notificationMap = new HashMap<>();
-        notificationMap.put("title", topicBody.get("title"));
-        notificationMap.put("body", topicBody.get("body"));
-        bodyMap.put("notification", notificationMap);
-
-        Map<String, String> dataMap = new HashMap<>();
-        dataMap.put("Key-1", "JSA Data 1");
-        dataMap.put("Key-2", "JSA Data 2");
-        bodyMap.put("data", dataMap);
-
-        Gson gson = new Gson();
-        String bodyJson =  gson.toJson(bodyMap);
-
-        HttpEntity<String> request = new HttpEntity<>(bodyJson.toString());
-        CompletableFuture<String> pushNotification = pushNotificationService.send(request);
-        CompletableFuture.allOf(pushNotification).join();
+    public ResponseEntity<?> send(@RequestBody List<Map<String, String>> topicBodyList) throws Exception {
+        List<String> firebaseResponseList = new LinkedList<>();
 
         try {
-            String firebaseResponse = pushNotification.get();
-            return new ResponseEntity<>(firebaseResponse, HttpStatus.OK);
+            for(Map<String, String> topicBody: topicBodyList ){
+                Map<String, Object> bodyMap = new HashMap<>();
+
+                //bodyMap.put("to", "/topics/" + TOPIC);
+                //bodyMap.put("to", "fEp6K72mF20:APA91bGnQX20wKA5aGjSzxo8yQalcJw6HsQyKt7M6Mcl3PpwR7-NCvqCnCtVo6HCN4IOInUCX0uuXApuPJh_6OQoN7Io2Y1hGD523I_PiqXOXKujkABysTdR5baU2rh9e2WDTk95UtFm");
+                bodyMap.put("to", topicBody.get("topicId"));
+                bodyMap.put("priority", "high");
+
+                Map<String, String> notificationMap = new HashMap<>();
+                notificationMap.put("title", topicBody.get("title"));
+                notificationMap.put("body", topicBody.get("body"));
+                bodyMap.put("notification", notificationMap);
+
+                Map<String, String> dataMap = new HashMap<>();
+                dataMap.put("Key-1", "JSA Data 1");
+                dataMap.put("Key-2", "JSA Data 2");
+                bodyMap.put("data", dataMap);
+
+                Gson gson = new Gson();
+                String bodyJson =  gson.toJson(bodyMap);
+
+                HttpEntity<String> request = new HttpEntity<>(bodyJson.toString());
+                CompletableFuture<String> pushNotification = pushNotificationService.send(request);
+                CompletableFuture.allOf(pushNotification).join();
+                String firebaseResponse = pushNotification.get();
+
+                firebaseResponseList.add(firebaseResponse);
+            }
+            return new ResponseEntity<>(firebaseResponseList, HttpStatus.OK);
         } catch(InterruptedException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
