@@ -1,20 +1,26 @@
 package com.example.springbootfcmpushnotification.controller;
 
+import com.example.springbootfcmpushnotification.entity.Topic;
 import com.example.springbootfcmpushnotification.service.PushNotificationService;
+import com.example.springbootfcmpushnotification.service.TopicService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.ResourceUtils;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+@CrossOrigin
 @RestController
 public class WebController {
 
@@ -23,9 +29,17 @@ public class WebController {
     @Autowired
     PushNotificationService pushNotificationService;
 
+    @Autowired
+    private TopicService topicService;
+
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String hello() {
         return "hello";
+    }
+
+    @RequestMapping(value = "/addTopic", method = RequestMethod.POST)
+    public ResponseEntity<?> addTopic(@RequestBody Topic topic) {
+        return new ResponseEntity<>(this.topicService.add(topic), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/send", method = RequestMethod.GET, produces = "application/json")
