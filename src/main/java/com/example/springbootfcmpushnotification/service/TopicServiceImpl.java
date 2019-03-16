@@ -6,7 +6,6 @@ import com.example.springbootfcmpushnotification.repository.TopicRepository;
 import com.example.springbootfcmpushnotification.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TopicServiceImpl implements TopicService {
@@ -23,13 +22,10 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    @Transactional
     public Topic add(Topic topic) {
         User user = this.userRepository.findByEmail(topic.getUser().getEmail());
         if(user != null) {
-            User user1 = topic.getUser();
-            user1.setId(user.getId());
-            topic.setUser(user1);
+            topic.setUser(user);
         }
         Topic existingTopic = this.topicRepository.findTopicByTopicId(topic.getTopicId());
         if(existingTopic == null) {
