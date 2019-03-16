@@ -25,7 +25,9 @@ public class TopicServiceImpl implements TopicService {
     public Topic add(Topic topic) {
         User user = this.userRepository.findByEmail(topic.getUser().getEmail());
         if(user != null) {
-            topic.getUser().setId(user.getId());
+            User user1 = topic.getUser();
+            user1.setId(user.getId());
+            topic.setUser(user1);
         }
         Topic existingTopic = this.topicRepository.findTopicByTopicId(topic.getTopicId());
         if(existingTopic == null) {
