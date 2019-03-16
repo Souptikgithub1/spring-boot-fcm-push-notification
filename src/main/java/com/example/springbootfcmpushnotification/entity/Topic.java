@@ -11,7 +11,7 @@ public class Topic implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
