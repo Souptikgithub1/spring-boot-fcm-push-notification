@@ -3,6 +3,7 @@ package com.example.springbootfcmpushnotification.controller;
 import com.example.springbootfcmpushnotification.entity.Topic;
 import com.example.springbootfcmpushnotification.service.PushNotificationService;
 import com.example.springbootfcmpushnotification.service.TopicService;
+import com.example.springbootfcmpushnotification.service.UserService;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -28,9 +29,10 @@ public class WebController {
 
     @Autowired
     PushNotificationService pushNotificationService;
-
     @Autowired
     private TopicService topicService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String hello() {
@@ -80,5 +82,10 @@ public class WebController {
         }
 
         return new ResponseEntity<>("Push Notification Error!", HttpStatus.BAD_REQUEST);
+    }
+
+    @RequestMapping(value = "/getUsers", method = RequestMethod.GET)
+    public ResponseEntity<?> getUsers() {
+        return new ResponseEntity<>(this.userService.getAll(), HttpStatus.OK);
     }
 }

@@ -1,27 +1,17 @@
-package com.example.springbootfcmpushnotification.entity;
+package com.example.springbootfcmpushnotification.bean;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import com.example.springbootfcmpushnotification.TopicBean;
+
 import java.util.List;
 
-@Table(name = "pn_user")
-@Entity
-public class User implements Serializable {
-    @Id
-    @GeneratedValue
-    @Column(name = "id")
+public class UserBean {
     private Long id;
-
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "email")
     private String email;
-
-    @Column(name = "photo_url")
     private String photoUrl;
+    private List<TopicBean> topics;
 
-    public User() {
+    public UserBean() {
         super();
     }
 
@@ -55,5 +45,13 @@ public class User implements Serializable {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public List<TopicBean> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(List<TopicBean> topics) {
+        this.topics = topics;
     }
 }
