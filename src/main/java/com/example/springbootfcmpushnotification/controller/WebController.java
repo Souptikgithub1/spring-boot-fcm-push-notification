@@ -62,6 +62,7 @@ public class WebController {
                 Map<String, String> notificationMap = new HashMap<>();
                 notificationMap.put("title", topicBody.get("title"));
                 notificationMap.put("body", topicBody.get("body"));
+                notificationMap.put("image", "https://firebase.google.com/_static/images/firebase/touchicon-180.png");
                 bodyMap.put("notification", notificationMap);
 
                 Map<String, String> dataMap = new HashMap<>();
